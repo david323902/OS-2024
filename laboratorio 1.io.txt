@@ -1,0 +1,91 @@
+Laboratorio uno
+const int ledVerde = 11;
+const int ledRojo = 12;
+const int ledAmarillo = 13;
+
+
+void encenderLuz(int pin) {
+  digitalWrite(pin, HIGH);
+}
+
+void apagarLuz(int pin) {
+  digitalWrite(pin, LOW);
+}
+
+
+void encenderTodasLasLuces() {
+  encenderLuz(ledVerde);
+  encenderLuz(ledRojo);
+  encenderLuz(ledAmarillo);
+}
+
+void apagarTodasLasLuces() {
+  apagarLuz(ledVerde);
+  apagarLuz(ledRojo);
+  apagarLuz(ledAmarillo);
+}
+
+
+void modoIntermitente() {
+  while (true) {
+    encenderTodasLasLuces();
+    delay(500);
+    apagarTodasLasLuces();
+    delay(500);
+
+    if (Serial.available() > 0) {
+      int opcion = Serial.read() - '0';
+      if (opcion != 9) {
+        break;
+      }
+    }
+  }
+}
+
+void setup() {
+  // Configurar los pines como salidas
+  pinMode(ledVerde, OUTPUT);
+  pinMode(ledRojo, OUTPUT);
+  pinMode(ledAmarillo, OUTPUT);
+
+  // Inicializar el monitor serial
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    int opcion = Serial.read() - '0';
+
+    switch (opcion) {
+      case 1:
+        encenderLuz(ledVerde);
+        break;
+      case 2:
+        apagarLuz(ledVerde);
+        break;
+      case 3:
+        encenderLuz(ledRojo);
+        break;
+      case 4:
+        apagarLuz(ledRojo);
+        break;
+      case 5:
+        encenderLuz(ledAmarillo);
+        break;
+      case 6:
+        apagarLuz(ledAmarillo);
+        break;
+      case 7:
+        encenderTodasLasLuces();
+        break;
+      case 8:
+        apagarTodasLasLuces();
+        break;
+      case 9:
+        modoIntermitente();
+        break;
+    }
+  }
+}
+
+ 
