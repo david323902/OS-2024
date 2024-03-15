@@ -1,0 +1,54 @@
+#include <LiquidCrystal.h>
+
+laboratorio 3
+
+const int LED_PIN = 13;
+const int TMP_PIN = 0;
+const int MOTOR_PIN = 10;
+
+// Inicialización del LCD
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  // Inicialización del LCD
+  lcd.begin(16, 2);
+  
+  // Configuración de pines
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(MOTOR_PIN, OUTPUT);
+  
+  // Inicialización de la comunicación serial
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Lectura de la temperatura
+  float temperature = map(analogRead(TMP_PIN), 0, 1023, -50, 450);
+
+  laboratorio 3
+  lcd.setCursor(1, 0);
+  lcd.print("TEMPERATURA ACTUAL = ");
+  lcd.setCursor(6, 1);
+  lcd.print(temperature);
+
+  
+  Serial.print("TEMPERATURA ACTUAL = ");
+  Serial.println(temperature);
+
+  
+  if (temperature < 11) {
+    digitalWrite(MOTOR_PIN, LOW);
+    digitalWrite(LED_PIN, HIGH);
+  } else if (temperature >= 11 && temperature <= 25) {
+    digitalWrite(MOTOR_PIN, LOW);
+    digitalWrite(LED_PIN, LOW);
+  } else {
+    digitalWrite(LED_PIN, HIGH);
+    digitalWrite(MOTOR_PIN, HIGH);
+  }
+
+  
+  delay(500);
+}
+
+ 
